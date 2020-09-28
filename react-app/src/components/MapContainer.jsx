@@ -21,9 +21,11 @@ export class MapContainer extends React.Component {
                 }
             ],
             clickedMap: '',
+            boundsChanged: '',
             isForm: !this.props.heatmapPositions,
         };
         this.mapClicked = this.mapClicked.bind(this);
+        this.handleBoundsChange = this.handleBoundsChange.bind(this);
     }
 
     onMarkerClick = (props, marker, e) =>
@@ -64,18 +66,35 @@ export class MapContainer extends React.Component {
         this.props.onClickedMap(position);
     }
 
+    handleBoundsChange(mapProps, map) {
+        const boundsData = {
+            swLat: map.getBounds().getSouthWest().lat(),
+            swLng: map.getBounds().getSouthWest().lng(),
+            neLat: map.getBounds().getNorthEast().lat(),
+            neLng: map.getBounds().getNorthEast().lng(),
+        }
+        this.props.onBoundsChanged(boundsData);
+    }
+
     render() {
         return (
             <Map
                 google={this.props.google}
                 zoom={17}
                 clickableIcons={true}
+                onDragend={!this.state.isForm ? this.handleBoundsChange : undefined}
+                onZoomChanged={!this.state.isForm ? this.handleBoundsChange : undefined}
                 onClick={this.state.isForm ? this.mapClicked : undefined}
+                initialCenter={{
+                    lat: 37.774929577713245,
+                    lng: -122.41942048072815
+                }}
                 style={mapStyles}>
                 {
                     this.props.heatmapPositions !== undefined ? <HeatMap
                         opacity={10}
                         positions={this.props.heatmapPositions}
+                        position={this.props.heatmapPositions} // fixme: bug with HeatMap component
                         radius={20}
                     /> : null
                 }
