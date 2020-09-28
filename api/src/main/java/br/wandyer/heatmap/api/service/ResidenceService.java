@@ -17,8 +17,8 @@ public class ResidenceService {
         this.repository = repository;
     }
 
-    public List<Residence> findAll() {
-        return repository.findAll();
+    public List<Residence> filterBounds(float swLat, float swLng, float neLat, float neLng) {
+        return repository.filterByBounds(swLat, swLng, neLat, neLng);
     }
 
     public Residence create(ResidenceRequest residenceRequest) {

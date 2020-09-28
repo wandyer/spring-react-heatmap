@@ -20,6 +20,10 @@ public class ResidenceRequest {
     @NotNull(message = "Quantity Residents is required")
     @Column(name = "QT_RESIDENTS")
     private Integer qtResidents;
+
+    @NotNull(message = "Latitude is required")
     private float latitude;
+
+    @NotNull(message = "Longitude is required")
     private float longitude;
 }

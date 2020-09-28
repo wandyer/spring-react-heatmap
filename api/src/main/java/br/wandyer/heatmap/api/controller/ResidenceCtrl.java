@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,9 +25,10 @@ public class ResidenceCtrl {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Residence> findAll() {
-        return service.findAll();
+    @GetMapping("/filterBounds")
+    public List<Residence> filterBounds(@RequestParam float swLat, @RequestParam float swLng,
+                                        @RequestParam float neLat, @RequestParam float neLng) {
+        return service.filterBounds(swLat, swLng, neLat, neLng);
     }
 
     @PostMapping
